@@ -1,51 +1,45 @@
 <template>
-    <div>
-        <seller-header :seller="seller"></seller-header>
-        <van-tabs v-model="active" sticky swipeable animated color="#ffda41">
-            <van-tab title="Menu">
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-                <h3>111</h3>
-            </van-tab>
-            <van-tab title="Rate">Content 2</van-tab>
-            <van-tab title="Store">Content 3</van-tab>
-        </van-tabs>
+    <div class="scrollBox">
+        <div>
+            <seller-header :seller="seller"></seller-header>
+            <van-tabs v-model="active" sticky animated color="#ffda41">
+                <van-tab title="Order">
+                    <order></order>
+                </van-tab>
+                <van-tab title="Rate">
+                    <comment></comment>
+                </van-tab>
+                <van-tab title="Store">
+                    <seller :seller="seller"></seller>
+                </van-tab>
+            </van-tabs>
+        </div>
+        <cart :seller="seller"></cart>
     </div>
 </template>
 
 <script>
 import {getStoreById} from '@/api/detail.js'
 import sellerHeader from "./seller-header"
+import order from "./order"
+import BScroll from 'better-scroll'
+import cart from './cart'
+import comment from './../comment'
+import seller from './../seller'
     export default {
         data(){
             return{
                 seller:[],
-                active:0
+                active:0,
+                scrollBox:null
             }
         },
         components:{
-            sellerHeader
+            sellerHeader,
+            order,
+            cart,
+            comment,
+            seller
         },
         methods:{
             getStoreMsg(){
@@ -55,6 +49,12 @@ import sellerHeader from "./seller-header"
                 })
             }
         },
+        mounted(){
+            this.scrollBox = new BScroll('.scrollBox',{
+                bounce:false,
+                click:true
+            })
+        },
         created(){
             this.getStoreMsg();
         }
@@ -62,5 +62,7 @@ import sellerHeader from "./seller-header"
 </script>
 
 <style lang="scss" scoped>
-
+    .scrollBox{
+        height: 100vh;
+    }
 </style>
